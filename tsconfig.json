@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+        "target": "ES2022", //Versão do JS 
+        "outDir": "./dist/js/", //ONde deverá ser compilado
+        "noEmitOnError": true, //Não deverar ser compilado caso tenha erro
+    },
+    "include": ["./src/**/*"]
+}

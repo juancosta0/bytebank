@@ -1,10 +1,3 @@
-let saldo = 3000;
-
-let elemetoSaldo = document.querySelector('.cc .valor') as HTMLElement; //Elemento HTML
-
-if(elemetoSaldo){
-    elemetoSaldo.textContent = saldo.toString();
-}
 
 const elementoForms = document.querySelector('.block-nova-transacao form') as HTMLFormElement; //Formulario HTML
 
@@ -20,33 +13,30 @@ elementoForms.addEventListener('submit', function (event) {
     const valorTransacao = document.querySelector('#valor') as HTMLInputElement;  //Deixa explicito que a variavel é um HTMLInputElement 
     const dataTransacao = document.querySelector('#data') as HTMLDataElement; //Deixa explicito que a variavel é um HTMLDataElement 
 
-    const tipo: string = tipoTransacao.value
+    const tipo: TipoTransacao = tipoTransacao.value as TipoTransacao
     const valor: number = valorTransacao.valueAsNumber
     const data: Date = new Date(dataTransacao.value)
 
 
-    if(tipo == 'Depósito'){
+
+    if(tipo == TipoTransacao.DEPOSITO){
         saldo += valor;
-    }else if(tipo == 'Transferência' || tipo == 'Pagamento de Boleto'){
+    }else if(tipo == TipoTransacao.TRANSFERENCIA || tipo == TipoTransacao.PAGAMENTO_BOLETO){
         saldo -= valor;
     }else{
         alert('Valor invalido!');
         return;
     }
 
-    elemetoSaldo.innerHTML = saldo.toString();
+    elemetoSaldo.innerHTML = formatarMoeda(saldo);
 
 
-    const novaTransacao = { //Criando um objeto para armazenar os dados
-        tipoTransacao: tipoTransacao,
-        valorTransacao: valorTransacao,
-        dataTransacao: dataTransacao
+    const novaTransacao: Transacao = { //Criando um objeto para armazenar os dados
+        tipoTransacao: tipo,
+        valor: valor,
+        data: data
     };
 
     console.log(novaTransacao);
     elementoForms.reset();
 })
-
-export {};
-
-
