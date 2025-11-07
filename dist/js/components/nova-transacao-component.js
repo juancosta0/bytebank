@@ -1,3 +1,5 @@
+import { TipoTransacao } from "../types/TipoTransacao.js";
+import { getSaldo, attSaldo } from "./saldo-component.js";
 const elementoForms = document.querySelector('.block-nova-transacao form'); //Formulario HTML
 elementoForms.addEventListener('submit', function (event) {
     event.preventDefault();
@@ -11,17 +13,18 @@ elementoForms.addEventListener('submit', function (event) {
     const tipo = tipoTransacao.value;
     const valor = valorTransacao.valueAsNumber;
     const data = new Date(dataTransacao.value);
+    let saldoTemp = getSaldo();
     if (tipo == TipoTransacao.DEPOSITO) {
-        saldo += valor;
+        saldoTemp += valor;
     }
     else if (tipo == TipoTransacao.TRANSFERENCIA || tipo == TipoTransacao.PAGAMENTO_BOLETO) {
-        saldo -= valor;
+        saldoTemp -= valor;
     }
     else {
         alert('Valor invalido!');
         return;
     }
-    elemetoSaldo.innerHTML = formatarMoeda(saldo);
+    attSaldo(saldoTemp);
     const novaTransacao = {
         tipoTransacao: tipo,
         valor: valor,
