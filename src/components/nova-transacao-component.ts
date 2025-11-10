@@ -1,13 +1,14 @@
+import Conta from "../types/Conta.js";
 import { TipoTransacao } from "../types/TipoTransacao.js";
 import { Transacao } from "../types/Transacao.js";
-
-import { getSaldo, attSaldo } from "./saldo-component.js";
+import SaldoComponent from "./saldo-component.js";
 
 
 const elementoForms = document.querySelector('.block-nova-transacao form') as HTMLFormElement; //Formulario HTML
 
 elementoForms.addEventListener('submit', function (event) {
-    event.preventDefault();
+    try{
+        event.preventDefault();
 
     if (!elementoForms.checkValidity()) { //Verifica se todos so campos do formularios estão preenchido
         alert('Por gentileza preencha todos os campos!');
@@ -22,26 +23,16 @@ elementoForms.addEventListener('submit', function (event) {
     const valor: number = valorTransacao.valueAsNumber
     const data: Date = new Date(dataTransacao.value)
 
-    let saldoTemp: number = getSaldo();
-
-    if(tipo == TipoTransacao.DEPOSITO){
-        saldoTemp += valor;
-    }else if(tipo == TipoTransacao.TRANSFERENCIA || tipo == TipoTransacao.PAGAMENTO_BOLETO){
-        saldoTemp -= valor;
-    }else{
-        alert('Valor invalido!');
-        return;
-    }
-
-    attSaldo(saldoTemp);
-
-
     const novaTransacao: Transacao = { //Criando um objeto para armazenar os dados
         tipoTransacao: tipo,
         valor: valor,
         data: data
     };
 
-    console.log(novaTransacao);
+    Conta.registrarTransacao(novaTransacao);
+    SaldoComponent.atualizar();
     elementoForms.reset();
+    } catch(erro){
+        alert(erro.message);
+    }
 })
