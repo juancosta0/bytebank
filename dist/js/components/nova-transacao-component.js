@@ -1,5 +1,6 @@
 import Conta from "../types/Conta.js";
 import SaldoComponent from "./saldo-component.js";
+import ExtratoComponent from "./extrato-component.js";
 const elementoForms = document.querySelector('.block-nova-transacao form'); //Formulario HTML
 elementoForms.addEventListener('submit', function (event) {
     try {
@@ -10,10 +11,10 @@ elementoForms.addEventListener('submit', function (event) {
         }
         const tipoTransacao = document.querySelector('#tipoTransacao'); //Deixa explicito que a variavel é um HTMLSelectElement 
         const valorTransacao = document.querySelector('#valor'); //Deixa explicito que a variavel é um HTMLInputElement 
-        const dataTransacao = document.querySelector('#data'); //Deixa explicito que a variavel é um HTMLDataElement 
+        const dataTransacao = document.querySelector('#data'); //Deixa explicito que a variavel é um HTMLInputElement 
         const tipo = tipoTransacao.value;
         const valor = valorTransacao.valueAsNumber;
-        const data = new Date(dataTransacao.value);
+        const data = new Date(dataTransacao.value + " 00:00:00");
         const novaTransacao = {
             tipoTransacao: tipo,
             valor: valor,
@@ -21,6 +22,7 @@ elementoForms.addEventListener('submit', function (event) {
         };
         Conta.registrarTransacao(novaTransacao);
         SaldoComponent.atualizar();
+        ExtratoComponent.atualizar();
         elementoForms.reset();
     }
     catch (erro) {
