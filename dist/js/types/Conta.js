@@ -53,10 +53,10 @@ const Conta = {
                 labelAtualGrupoTransacao = labelGrupoTransacao;
                 gruposTransacoes.push({
                     label: labelGrupoTransacao,
-                    transacaoes: []
+                    transacoes: []
                 });
             }
-            gruposTransacoes.at(-1).transacaoes.push(transacao);
+            gruposTransacoes.at(-1).transacoes.push(transacao);
         }
         return gruposTransacoes;
     }
